@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>♨️ 台灣野溪溫泉 — 溫泉探險家的收集手冊</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;700&family=Zen+Maru+Gothic:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ================================================
+       DESIGN SYSTEM — 日本礦物美學 × 電影感敘事
+       2026-04-23 假色稿概念驗證
+       ================================================ */
+
+    :root {
+      /* 礦物色盤 — 來自溫泉水的鐵鏽礦物沉積 */
+      --mineral-rust: #C04A1A;
+      --mineral-amber: #D4762C;
+      --mineral-steam: #E8DCC8;
+      --mineral-deep: #1C1208;
+      --mineral-forest: #2A3B2E;
+      --mineral-moss: #4A5C3A;
+      --mineral-water: #5B7B8A;
+
+      /* 排版 */
+      --font-display: 'Noto Serif TC', 'Songti SC', serif;
+      --font-body: 'Zen Maru Gothic', 'Hiragino Sans', sans-serif;
+
+      /* 空間 */
+      --space-xs: 8px;
+      --space-sm: 16px;
+      --space-md: 24px;
+      --space-lg: 48px;
+      --space-xl: 80px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--mineral-deep);
+      color: var(--mineral-steam);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    /* ================================================
+       HERO — 電影感全屏開場
+       ================================================ */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to top, rgba(28,18,8,0.92) 0%, rgba(28,18,8,0.4) 50%, rgba(28,18,8,0.15) 100%),
+        url('https://images.unsplash.com/photo-1464822759869-4c1a6f43e5ee?w=1920&q=80') center/cover no-repeat;
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      padding: var(--space-xl) var(--space-lg);
+      max-width: 800px;
+    }
+
+    .hero__eyebrow {
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--mineral-amber);
+      margin-bottom: var(--space-sm);
+    }
+
+    .hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 8vw, 96px);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: 0.08em;
+      margin-bottom: var(--space-md);
+    }
+
+    .hero__title span {
+      display: block;
+      color: var(--mineral-amber);
+    }
+
+    .hero__subtitle {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 2;
+      opacity: 0.7;
+      letter-spacing: 0.15em;
+      max-width: 480px;
+    }
+
+    .hero__scroll-hint {
+      position: absolute;
+      bottom: 32px;
+      right: 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.4;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+    }
+
+    .hero__scroll-hint::after {
+      content: '';
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, var(--mineral-amber), transparent);
+      animation: scrollLine 1.5s ease-in-out infinite;
+    }
+
+    @keyframes scrollLine {
+      0%, 100% { opacity: 0.4; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.3); }
+    }
+
+    /* ================================================
+       INTRO — 小綠的靈魂解說
+       ================================================ */
+    .intro {
+      padding: var(--space-xl) var(--space-lg);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-lg);
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .intro__image {
+      position: relative;
+      aspect-ratio: 4/3;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .intro__image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: sepia(20%) contrast(1.1);
+    }
+
+    .intro__image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(192,74,26,0.15), transparent);
+    }
+
+    .intro__label {
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--mineral-amber);
+      margin-bottom: var(--space-sm);
+    }
+
+    .intro__heading {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 300;
+      line-height: 1.4;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--space-md);
+    }
+
+    .intro__text {
+      font-size: 15px;
+      line-height: 2;
+      opacity: 0.7;
+      max-width: 480px;
+    }
+
+    .intro__signature {
+      margin-top: var(--space-md);
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-style: italic;
+      opacity: 0.5;
+    }
+
+    /* ================================================
+       COLLECTION SHOWCASE — 滑動式溫泉卡片
+       ================================================ */
+    .showcase {
+      padding: var(--space-lg) 0 var(--space-xl);
+      background: var(--mineral-forest);
+    }
+
+    .showcase__header {
+      padding: 0 var(--space-lg);
+      margin-bottom: var(--space-lg);
+    }
+
+    .showcase__count {
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--mineral-amber);
+      margin-bottom: var(--space-xs);
+    }
+
+    .showcase__heading {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+    }
+
+    .showcase__scroll {
+      display: flex;
+      gap: var(--space-md);
+      overflow-x: auto;
+      padding: 0 var(--space-lg) var(--space-lg);
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .showcase__scroll::-webkit-scrollbar { display: none; }
+
+    .spring-card {
+      flex: 0 0 320px;
+      scroll-snap-align: start;
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .spring-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .spring-card__image {
+      aspect-ratio: 3/4;
+      position: relative;
+    }
+
+    .spring-card__image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.85) contrast(1.05);
+    }
+
+    .spring-card__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(28,18,8,0.9) 0%, rgba(28,18,8,0.1) 60%);
+    }
+
+    .spring-card__content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: var(--space-md);
+    }
+
+    .spring-card__region {
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--mineral-amber);
+      margin-bottom: 6px;
+    }
+
+    .spring-card__name {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .spring-card__meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .spring-card__tag {
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 2px;
+      background: rgba(232,220,200,0.12);
+      color: var(--mineral-steam);
+      letter-spacing: 0.1em;
+    }
+
+    .spring-card__tag--rust {
+      background: rgba(192,74,26,0.25);
+      color: var(--mineral-amber);
+      border: 1px solid rgba(192,74,26,0.4);
+    }
+
+    /* ================================================
+       REGIONS — 四分部從地圖視角
+       ================================================ */
+    .regions {
+      padding: var(--space-xl) var(--space-lg);
+      background: var(--mineral-deep);
+    }
+
+    .regions__header {
+      text-align: center;
+      margin-bottom: var(--space-lg);
+    }
+
+    .regions__label {
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--mineral-amber);
+      margin-bottom: var(--space-sm);
+    }
+
+    .regions__heading {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+    }
+
+    .regions__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .region-card {
+      position: relative;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .region-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.7) contrast(1.1);
+      transition: filter 0.6s ease, transform 0.6s ease;
+    }
+
+    .region-card:hover img {
+      filter: saturate(1) contrast(1);
+      transform: scale(1.04);
+    }
+
+    .region-card__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(28,18,8,0.85) 30%, rgba(28,18,8,0) 70%);
+    }
+
+    .region-card__content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: var(--space-md);
+    }
+
+    .region-card__emoji {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .region-card__name {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      margin-bottom: 4px;
+    }
+
+    .region-card__count {
+      font-size: 12px;
+      opacity: 0.6;
+      letter-spacing: 0.1em;
+    }
+
+    /* ================================================
+       PHILOSOPHY — 核心理念陳述
+       ================================================ */
+    .philosophy {
+      padding: var(--space-xl) var(--space-lg);
+      background: var(--mineral-forest);
+      text-align: center;
+    }
+
+    .philosophy__label {
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--mineral-amber);
+      margin-bottom: var(--space-md);
+    }
+
+    .philosophy__quote {
+      font-family: var(--font-display);
+      font-size: clamp(20px, 3vw, 32px);
+      font-weight: 300;
+      line-height: 1.8;
+      max-width: 700px;
+      margin: 0 auto var(--space-lg);
+      letter-spacing: 0.08em;
+      font-style: italic;
+    }
+
+    .philosophy__author {
+      font-size: 12px;
+      opacity: 0.4;
+      letter-spacing: 0.2em;
+    }
+
+    /* ================================================
+       FOOTER — 極簡
+       ================================================ */
+    .footer {
+      padding: var(--space-lg);
+      background: var(--mineral-deep);
+      border-top: 1px solid rgba(232,220,200,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer__text {
+      font-size: 12px;
+      opacity: 0.3;
+      letter-spacing: 0.1em;
+    }
+
+    .footer__mark {
+      font-size: 11px;
+      opacity: 0.2;
+      letter-spacing: 0.15em;
+    }
+
+    /* ================================================
+       RESPONSIVE
+       ================================================ */
+    @media (max-width: 768px) {
+      .intro {
+        grid-template-columns: 1fr;
+        padding: var(--space-lg) var(--space-sm);
+      }
+      .intro__image { order: -1; }
+      .regions__grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .hero__content {
+        padding: var(--space-lg) var(--space-sm);
+      }
+      .footer {
+        flex-direction: column;
+        gap: var(--space-sm);
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+       HERO — 電影感開場
+       ═══════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero__bg"></div>
+    <div class="hero__content">
+      <div class="hero__eyebrow">Taiwan Wild Hot Springs</div>
+      <h1 class="hero__title">
+        山的靈魂<br>
+        <span>在水溫裡</span>
+      </h1>
+      <p class="hero__subtitle">
+        走進真正的野溪溫泉——不是觀光客的池子，是只有山知道的地方。
+      </p>
+    </div>
+    <div class="hero__scroll-hint">SCROLL</div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       INTRO — 小綠的靈魂解說
+       ═══════════════════════════════════════════════ -->
+  <section class="intro">
+    <div class="intro__image">
+      <img src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800&q=80"
+           alt="山溪與森林">
+    </div>
+    <div>
+      <div class="intro__label">About This Collection</div>
+      <h2 class="intro__heading">
+        66 個溫泉<br>
+        66 種抵達山的方式
+      </h2>
+      <p class="intro__text">
+        每一個溫泉都不只是一組座標。穿過產業道路、涉過溪水、或者在登山口卸下裝備的那一刻——那才是真正的抵達。<br><br>
+        這本手冊記錄的不只是難易度與交通指南，而是每一次「我真的把自己帶進山裡」的記憶。
+      </p>
+      <p class="intro__signature">— 小綠，野溪溫泉愛好者</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       SHOWCASE — 橫向滑動精選
+       ═══════════════════════════════════════════════ -->
+  <section class="showcase">
+    <div class="showcase__header">
+      <div class="showcase__count">精選 · Featured</div>
+      <h2 class="showcase__heading">從清單裡挑一個，週末上山</h2>
+    </div>
+    <div class="showcase__scroll">
+
+      <div class="spring-card">
+        <div class="spring-card__image">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80" alt="嘎拉賀溫泉">
+          <div class="spring-card__overlay"></div>
+        </div>
+        <div class="spring-card__content">
+          <div class="spring-card__region">北部 · 新北</div>
+          <h3 class="spring-card__name">嘎拉賀</h3>
+          <div class="spring-card__meta">
+            <span class="spring-card__tag spring-card__tag--rust">♨️ 碳酸氫鈉</span>
+            <span class="spring-card__tag">⛰️ 中級</span>
+            <span class="spring-card__tag">🐕 柴犬友善</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="spring-card">
+        <div class="spring-card__image">
+          <img src="https://images.unsplash.com/photo-1518623001395-125242310d0c?w=600&q=80" alt="栗松溫泉">
+          <div class="spring-card__overlay"></div>
+        </div>
+        <div class="spring-card__content">
+          <div class="spring-card__region">東部 · 台東</div>
+          <h3 class="spring-card__name">栗松</h3>
+          <div class="spring-card__meta">
+            <span class="spring-card__tag spring-card__tag--rust">♨️ 碳酸氫鈉</span>
+            <span class="spring-card__tag">🔥 老手</span>
+            <span class="spring-card__tag">🥾 需步行 2km</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="spring-card">
+        <div class="spring-card__image">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="秀巒溫泉">
+          <div class="spring-card__overlay"></div>
+        </div>
+        <div class="spring-card__content">
+          <div class="spring-card__region">中部 · 桃園</div>
+          <h3 class="spring-card__name">秀巒</h3>
+          <div class="spring-card__meta">
+            <span class="spring-card__tag spring-card__tag--rust">♨️ 碳酸氫鈉</span>
+            <span class="spring-card__tag">🌱 新手</span>
+            <span class="spring-card__tag">🚗 容易抵達</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="spring-card">
+        <div class="spring-card__image">
+          <img src="https://images.unsplash.com/photo-1462275646964-a0e3571f4f2a?w=600&q=80" alt="哈尤溪溫泉">
+          <div class="spring-card__overlay"></div>
+        </div>
+        <div class="spring-card__content">
+          <div class="spring-card__region">東部 · 台東</div>
+          <h3 class="spring-card__name">哈尤溪</h3>
+          <div class="spring-card__meta">
+            <span class="spring-card__tag spring-card__tag--rust">♨️ 碳酸氫鈉</span>
+            <span class="spring-card__tag">🔥 老手</span>
+            <span class="spring-card__tag">🛶 溯溪 16km</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="spring-card">
+        <div class="spring-card__image">
+          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80" alt="金崙溫泉">
+          <div class="spring-card__overlay"></div>
+        </div>
+        <div class="spring-card__content">
+          <div class="spring-card__region">東部 · 台東</div>
+          <h3 class="spring-card__name">金崙</h3>
+          <div class="spring-card__meta">
+            <span class="spring-card__tag spring-card__tag--rust">♨️ 碳酸氫鈉</span>
+            <span class="spring-card__tag">🌱 新手</span>
+            <span class="spring-card__tag">🐕 柴犬友善</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       REGIONS — 四區域探索
+       ═══════════════════════════════════════════════ -->
+  <section class="regions">
+    <div class="regions__header">
+      <div class="regions__label">Explore by Region</div>
+      <h2 class="regions__heading">從哪裡開始，你說了算</h2>
+    </div>
+    <div class="regions__grid">
+      <div class="region-card">
+        <img src="https://images.unsplash.com/photo-1470071459604-3b5ac3ced550?w=600&q=80" alt="北部">
+        <div class="region-card__overlay"></div>
+        <div class="region-card__content">
+          <div class="region-card__emoji">🌤</div>
+          <div class="region-card__name">北</div>
+          <div class="region-card__count">9 個溫泉</div>
+        </div>
+      </div>
+      <div class="region-card">
+        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=80" alt="中部">
+        <div class="region-card__overlay"></div>
+        <div class="region-card__content">
+          <div class="region-card__emoji">🌿</div>
+          <div class="region-card__name">中</div>
+          <div class="region-card__count">12 個溫泉</div>
+        </div>
+      </div>
+      <div class="region-card">
+        <img src="https://images.unsplash.com/photo-1465056836041-7f43ac27dcb5?w=600&q=80" alt="南部">
+        <div class="region-card__overlay"></div>
+        <div class="region-card__content">
+          <div class="region-card__emoji">☀️</div>
+          <div class="region-card__name">南</div>
+          <div class="region-card__count">5 個溫泉</div>
+        </div>
+      </div>
+      <div class="region-card">
+        <img src="https://images.unsplash.com/photo-1504284905361-3e8c3d50fcd4?w=600&q=80" alt="東部">
+        <div class="region-card__overlay"></div>
+        <div class="region-card__content">
+          <div class="region-card__emoji">🌊</div>
+          <div class="region-card__name">東</div>
+          <div class="region-card__count">40 個溫泉</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       PHILOSOPHY — 核心理念
+       ═══════════════════════════════════════════════ -->
+  <section class="philosophy">
+    <div class="philosophy__label">Our Philosophy</div>
+    <blockquote class="philosophy__quote">
+      「帶走的不只是疲憊，還有山的記憶。」<br>
+      真正的溫泉在於山的靈魂，不在水溫。
+    </blockquote>
+    <p class="philosophy__author">— 小綠， Patagonia 精神</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer__text">♨️ 台灣野溪溫泉收集手冊</div>
+    <div class="footer__mark">66 Springs · 4 Regions · 1 Mission</div>
+  </footer>
+
+</body>
+</html>
