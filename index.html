@@ -32,6 +32,9 @@
       --space-md: 24px;
       --space-lg: 48px;
       --space-xl: 80px;
+      --space-md: 24px;
+      --space-lg: 48px;
+      --space-xl: 80px;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -69,6 +72,24 @@
       max-width: 800px;
     }
 
+    .hero__logo {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+      margin-bottom: var(--space-md);
+    }
+    .hero__logo img {
+      width: 72px;
+      height: 72px;
+    }
+    .hero__logo-sub {
+      font-family: var(--font-body);
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: var(--mineral-amber);
+      opacity: 0.8;
+    }
     .hero__eyebrow {
       font-family: var(--font-body);
       font-size: 11px;
@@ -443,16 +464,21 @@
       background: var(--mineral-deep);
       border-top: 1px solid rgba(232,220,200,0.08);
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
+      flex-direction: column;
+      gap: 12px;
     }
-
+    .footer__logo {
+      width: 40px;
+      height: 40px;
+      opacity: 0.35;
+    }
     .footer__text {
       font-size: 12px;
       opacity: 0.3;
       letter-spacing: 0.1em;
     }
-
     .footer__mark {
       font-size: 11px;
       opacity: 0.2;
@@ -490,6 +516,10 @@
   <section class="hero">
     <div class="hero__bg"></div>
     <div class="hero__content">
+      <div class="hero__logo">
+        <img src="logo.svg" alt="泉" width="72" height="72">
+        <div class="hero__logo-sub">T A I W A N   W I L D   S P R I N G S</div>
+      </div>
       <div class="hero__eyebrow">Taiwan Wild Hot Springs</div>
       <h1 class="hero__title">
         山的靈魂<br>
@@ -681,6 +711,7 @@
        FOOTER
        ═══════════════════════════════════════════════ -->
   <footer class="footer">
+    <img src="logo.svg" alt="泉" class="footer__logo">
     <div class="footer__text">♨️ 台灣野溪溫泉收集手冊</div>
     <div class="footer__mark">66 Springs · 4 Regions · 1 Mission</div>
   </footer>

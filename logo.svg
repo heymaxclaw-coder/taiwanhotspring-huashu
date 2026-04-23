@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- 背景礦物紙張質感 -->
+    <filter id="paper" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="5" result="noise"/>
+      <feColorMatrix type="saturate" values="0" in="noise" result="gray"/>
+      <feBlend in="SourceGraphic" in2="gray" mode="multiply"/>
+    </filter>
+  </defs>
+
+  <!-- 啞煤底 -->
+  <rect width="400" height="400" fill="#1C1208"/>
+
+  <!-- 山巒主體 — 三座山峰等高線 -->
+  <g transform="translate(200, 210)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 左側副峰 -->
+    <path d="M-120 60 L-60 -20 L0 60" stroke="#4A5C3A" stroke-width="1.5"/>
+    <path d="M-110 40 L-60 0 L-10 40" stroke="#4A5C3A" stroke-width="1" opacity="0.5"/>
+
+    <!-- 中央主峰 -->
+    <path d="M-60 60 L0 -80 L60 60" stroke="#E8DCC8" stroke-width="2"/>
+    <path d="M-45 30 L0 -55 L45 30" stroke="#E8DCC8" stroke-width="1.5" opacity="0.7"/>
+    <path d="M-30 0 L0 -30 L30 0" stroke="#E8DCC8" stroke-width="1" opacity="0.4"/>
+
+    <!-- 右側副峰 -->
+    <path d="M0 60 L60 -10 L120 60" stroke="#4A5C3A" stroke-width="1.5"/>
+    <path d="M10 40 L60 5 L110 40" stroke="#4A5C3A" stroke-width="1" opacity="0.5"/>
+  </g>
+
+  <!-- 溫泉水平面 -->
+  <line x1="80" y1="285" x2="320" y2="285" stroke="#5B7B8A" stroke-width="1.5" opacity="0.6"/>
+  <line x1="100" y1="295" x2="300" y2="295" stroke="#5B7B8A" stroke-width="1" opacity="0.35"/>
+
+  <!-- 溫泉蒸汽 — 三條上升弧線 -->
+  <g transform="translate(200, 285)" fill="none" stroke-linecap="round">
+    <!-- 左蒸汽 -->
+    <path d="M-15 0 Q-25 -30 -15 -50 Q-5 -70 -15 -90" stroke="#C04A1A" stroke-width="2" opacity="0.9"/>
+    <circle cx="-15" cy="-95" r="4" fill="#C04A1A" opacity="0.8"/>
+
+    <!-- 中蒸汽（最濃） -->
+    <path d="M0 0 Q-12 -35 0 -65 Q12 -95 0 -120" stroke="#D4762C" stroke-width="2.5" opacity="1"/>
+    <circle cx="0" cy="-125" r="5" fill="#D4762C" opacity="0.9"/>
+    <circle cx="-8" cy="-138" r="3" fill="#D4762C" opacity="0.6"/>
+
+    <!-- 右蒸汽 -->
+    <path d="M15 0 Q25 -30 15 -50 Q5 -70 15 -90" stroke="#C04A1A" stroke-width="2" opacity="0.9"/>
+    <circle cx="15" cy="-95" r="4" fill="#C04A1A" opacity="0.8"/>
+  </g>
+
+  <!-- 品牌名：泉 -->
+  <text
+    x="200" y="370"
+    text-anchor="middle"
+    font-family="'Noto Serif TC', 'Songti SC', serif"
+    font-size="28"
+    font-weight="300"
+    letter-spacing="0.3em"
+    fill="#E8DCC8"
+  >泉</text>
+
+  <!-- 副標 -->
+  <text
+    x="200" y="390"
+    text-anchor="middle"
+    font-family="'Zen Maru Gothic', sans-serif"
+    font-size="9"
+    letter-spacing="0.25em"
+    fill="#D4762C"
+    opacity="0.8"
+  >T A I W A N   W I L D   S P R I N G S</text>
+
+  <!-- 底部礦物水平線裝飾 -->
+  <line x1="120" y1="398" x2="280" y2="398" stroke="#C04A1A" stroke-width="0.5" opacity="0.4"/>
+</svg>
