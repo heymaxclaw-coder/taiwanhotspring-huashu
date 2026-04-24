@@ -1,720 +1,608 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>♨️ 台灣野溪溫泉 — 溫泉探險家的收集手冊</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;700&family=Zen+Maru+Gothic:wght@300;400;700&display=swap" rel="stylesheet">
-  <style>
-    /* ================================================
-       DESIGN SYSTEM — 日本礦物美學 × 電影感敘事
-       2026-04-23 假色稿概念驗證
-       ================================================ */
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>台灣野溪溫泉 | 66 Springs</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;700&family=Zen+Maru+Gothic:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --mineral-rust: #C04A1A;
+  --mineral-amber: #D4762C;
+  --mineral-steam: #E8DCC8;
+  --mineral-deep: #1C1208;
+  --mineral-forest: #2A3B2E;
+  --mineral-moss: #4A5C3A;
+  --mineral-water: #5B7B8A;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: 'Zen Maru Gothic', sans-serif;
+  background: var(--mineral-deep);
+  color: var(--mineral-steam);
+  min-height: 100vh;
+  padding-bottom: calc(70px + var(--safe-bottom));
+}
+h1,h2,h3 { font-family: 'Noto Serif TC', serif; }
+.hidden { display: none !important; }
 
-    :root {
-      /* 礦物色盤 — 來自溫泉水的鐵鏽礦物沉積 */
-      --mineral-rust: #C04A1A;
-      --mineral-amber: #D4762C;
-      --mineral-steam: #E8DCC8;
-      --mineral-deep: #1C1208;
-      --mineral-forest: #2A3B2E;
-      --mineral-moss: #4A5C3A;
-      --mineral-water: #5B7B8A;
+/* Desktop sidebar layout */
+@media (min-width: 768px) {
+  body { padding-bottom: 0; }
+  .app-shell { display: flex; min-height: 100vh; }
+  .sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    background: linear-gradient(180deg, #241810 0%, var(--mineral-deep) 100%);
+    border-right: 1px solid rgba(212,118,44,0.2);
+    padding: 24px 16px;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    overflow-y: auto;
+  }
+  .main-content { margin-left: 240px; flex: 1; }
+}
 
-      /* 排版 */
-      --font-display: 'Noto Serif TC', 'Songti SC', serif;
-      --font-body: 'Zen Maru Gothic', 'Hiragino Sans', sans-serif;
+/* Mobile header */
+.mobile-header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(28,18,8,0.95);
+  backdrop-filter: blur(10px);
+  padding: 12px 16px;
+  display: flex; align-items: center; gap: 12px;
+  border-bottom: 1px solid rgba(212,118,44,0.2);
+}
+.mobile-header .logo-img { width: 40px; height: 40px; }
+.mobile-header h1 { font-size: 18px; font-weight: 400; }
 
-      /* 空間 */
-      --space-xs: 8px;
-      --space-sm: 16px;
-      --space-md: 24px;
-      --space-lg: 48px;
-      --space-xl: 80px;
-      --space-md: 24px;
-      --space-lg: 48px;
-      --space-xl: 80px;
-    }
+@media (min-width: 768px) { .mobile-header { display: none; } }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+/* Sidebar contents */
+.sidebar .logo-section { display: flex; align-items: center; gap: 10px; margin-bottom: 32px; }
+.sidebar .logo-section img { width: 48px; height: 48px; }
+.sidebar .logo-section span { font-family: 'Noto Serif TC', serif; font-size: 18px; }
+.sidebar-nav { display: flex; flex-direction: column; gap: 4px; }
+.sidebar-nav a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 16px; border-radius: 8px;
+  color: rgba(232,220,200,0.7);
+  text-decoration: none; font-size: 15px;
+  transition: all 0.2s;
+}
+.sidebar-nav a:hover, .sidebar-nav a.active {
+  background: rgba(212,118,44,0.15);
+  color: var(--mineral-amber);
+}
+.sidebar-nav a .nav-icon { font-size: 18px; }
+.sidebar-footer { margin-top: auto; padding-top: 24px; border-top: 1px solid rgba(212,118,44,0.15); }
+.sidebar-footer .footer-logo { display: flex; align-items: center; gap: 8px; }
+.sidebar-footer .footer-logo img { width: 32px; height: 32px; }
+.sidebar-footer .footer-text { font-size: 12px; color: rgba(232,220,200,0.5); }
 
-    body {
-      background: var(--mineral-deep);
-      color: var(--mineral-steam);
-      font-family: var(--font-body);
-      overflow-x: hidden;
-    }
+/* Filter chips */
+.filter-section { padding: 12px 16px; overflow-x: auto; white-space: nowrap; }
+.filter-group { display: flex; gap: 8px; margin-bottom: 8px; }
+.filter-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 6px 14px; border-radius: 20px;
+  background: rgba(90,124,138,0.2);
+  border: 1px solid rgba(91,123,138,0.4);
+  color: var(--mineral-steam); font-size: 13px;
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.filter-chip:hover { background: rgba(90,124,138,0.3); }
+.filter-chip.active {
+  background: var(--mineral-amber);
+  border-color: var(--mineral-amber);
+  color: var(--mineral-deep);
+}
 
-    /* ================================================
-       HERO — 電影感全屏開場
-       ================================================ */
-    .hero {
-      position: relative;
-      height: 100vh;
-      display: flex;
-      align-items: flex-end;
-      overflow: hidden;
-    }
+/* Spring list */
+.spring-list { padding: 8px 16px 100px; }
+@media (min-width: 768px) { .spring-list { padding: 16px 24px 24px; } }
 
-    .hero__bg {
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(to top, rgba(28,18,8,0.92) 0%, rgba(28,18,8,0.4) 50%, rgba(28,18,8,0.15) 100%),
-        url('https://image.pollinations.ai/prompt/Majestic%20taiwan%20mountain%20valley%20steam%20hotspring%20dawn%20mist%20cinematic%20dramatic%20lighting%20illustration?width=1920&height=1080&nologo=true') center/cover no-repeat;
-    }
+/* Spring card */
+.spring-card {
+  background: linear-gradient(135deg, rgba(42,59,46,0.4) 0%, rgba(28,18,8,0.8) 100%);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(212,118,44,0.15);
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.spring-card:active { transform: scale(0.98); }
+.spring-card:hover { border-color: rgba(212,118,44,0.4); }
 
-    .hero__content {
-      position: relative;
-      z-index: 2;
-      padding: var(--space-xl) var(--space-lg);
-      max-width: 800px;
-    }
+/* Card illustration area */
+.card-illustration {
+  height: 120px;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.card-illustration svg { position: absolute; width: 100%; height: 100%; }
+.calligraphy {
+  position: relative; z-index: 1;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 32px; font-weight: 300;
+  color: rgba(232,220,200,0.6);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  letter-spacing: 0.2em;
+}
 
-    .hero__logo {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 6px;
-      margin-bottom: var(--space-md);
-    }
-    .hero__logo img {
-      width: 96px;
-      height: 96px;
-    }
-    .hero__logo-sub {
-      font-family: var(--font-body);
-      font-size: 10px;
-      letter-spacing: 0.25em;
-      color: var(--mineral-amber);
-      opacity: 0.8;
-    }
-    .hero__eyebrow {
-      font-family: var(--font-body);
-      font-size: 11px;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--mineral-amber);
-      margin-bottom: var(--space-sm);
-    }
+/* Region gradients */
+.region-north { background: linear-gradient(160deg, #2A3B2E 0%, #4A5C3A 100%); }
+.region-central { background: linear-gradient(160deg, #3B2E2A 0%, #5C3A3A 100%); }
+.region-south { background: linear-gradient(160deg, #2E2A3B 0%, #3A3A5C 100%); }
+.region-east { background: linear-gradient(160deg, #2A3B3B 0%, #3A5C5C 100%); }
 
-    .hero__title {
-      font-family: var(--font-display);
-      font-size: clamp(48px, 8vw, 96px);
-      font-weight: 300;
-      line-height: 1.1;
-      letter-spacing: 0.08em;
-      margin-bottom: var(--space-md);
-    }
+/* Card header */
+.card-header { padding: 14px 16px; }
+.card-title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.card-name { font-family: 'Noto Serif TC', serif; font-size: 18px; font-weight: 400; }
+.card-region { display: flex; align-items: center; gap: 4px; font-size: 13px; color: var(--mineral-amber); }
+.card-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+.badge {
+  display: inline-block; padding: 3px 10px; border-radius: 12px;
+  font-size: 11px; font-weight: 500;
+}
+.badge-type { background: rgba(91,123,138,0.3); color: var(--mineral-water); }
+.badge-season { background: rgba(212,118,44,0.2); color: var(--mineral-amber); }
+.badge-difficulty {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border-radius: 12px; font-size: 11px;
+}
+.badge-newbie { background: rgba(74,92,58,0.3); color: var(--mineral-moss); }
+.badge-intermediate { background: rgba(212,118,44,0.2); color: var(--mineral-amber); }
+.badge-expert { background: rgba(192,74,26,0.2); color: var(--mineral-rust); }
+.stars { color: var(--mineral-amber); letter-spacing: -2px; }
 
-    .hero__title span {
-      display: block;
-      color: var(--mineral-amber);
-    }
+/* Card description */
+.card-description {
+  padding: 0 16px 14px;
+  font-size: 13px; line-height: 1.6;
+  color: rgba(232,220,200,0.75);
+  border-bottom: 1px solid rgba(212,118,44,0.1);
+}
+.card-description.warning { color: var(--mineral-rust); }
 
-    .hero__subtitle {
-      font-family: var(--font-display);
-      font-size: 16px;
-      font-weight: 300;
-      line-height: 2;
-      opacity: 0.7;
-      letter-spacing: 0.15em;
-      max-width: 480px;
-    }
+/* Expanded details */
+.card-details {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+.spring-card.expanded .card-details { max-height: 500px; }
+.detail-item { padding: 12px 16px; border-bottom: 1px solid rgba(212,118,44,0.08); }
+.detail-label { font-size: 11px; color: var(--mineral-amber); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+.detail-value { font-size: 13px; line-height: 1.5; color: rgba(232,220,200,0.85); }
 
-    .hero__scroll-hint {
-      position: absolute;
-      bottom: 32px;
-      right: 32px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      opacity: 0.4;
-      font-size: 10px;
-      letter-spacing: 0.2em;
-    }
+/* Favorite button */
+.fav-btn {
+  background: rgba(212,118,44,0.15);
+  border: 1px solid rgba(212,118,44,0.3);
+  border-radius: 8px; padding: 6px 12px;
+  color: var(--mineral-amber); font-size: 12px;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; gap: 4px;
+}
+.fav-btn:hover { background: rgba(212,118,44,0.25); }
+.fav-btn.saved { background: var(--mineral-amber); color: var(--mineral-deep); border-color: var(--mineral-amber); }
 
-    .hero__scroll-hint::after {
-      content: '';
-      width: 1px;
-      height: 48px;
-      background: linear-gradient(to bottom, var(--mineral-amber), transparent);
-      animation: scrollLine 1.5s ease-in-out infinite;
-    }
+/* Bottom nav */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(28,18,8,0.97);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(212,118,44,0.2);
+  display: flex; justify-content: space-around;
+  padding: 8px 0;
+  padding-bottom: calc(8px + var(--safe-bottom));
+  z-index: 1000;
+}
+.nav-item {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 6px 20px; border-radius: 8px;
+  color: rgba(232,220,200,0.5);
+  text-decoration: none; font-size: 10px;
+  cursor: pointer; transition: all 0.2s;
+}
+.nav-item .nav-icon { font-size: 22px; margin-bottom: 2px; }
+.nav-item.active { color: var(--mineral-amber); }
 
-    @keyframes scrollLine {
-      0%, 100% { opacity: 0.4; transform: scaleY(1); }
-      50% { opacity: 1; transform: scaleY(1.3); }
-    }
+@media (min-width: 768px) { .bottom-nav { display: none; } }
 
-    /* ================================================
-       INTRO — 小綠的靈魂解說
-       ================================================ */
-    .intro {
-      padding: var(--space-xl) var(--space-lg);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-lg);
-      align-items: center;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+/* Desktop grid */
+@media (min-width: 768px) {
+  .spring-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .spring-card { margin-bottom: 0; }
+}
 
-    .intro__image {
-      position: relative;
-      aspect-ratio: 4/3;
-      border-radius: 4px;
-      overflow: hidden;
-    }
+/* Empty state */
+.empty-state {
+  text-align: center; padding: 60px 20px;
+  color: rgba(232,220,200,0.5);
+}
+.empty-state .empty-icon { font-size: 48px; margin-bottom: 16px; }
+.empty-state p { font-size: 14px; }
 
-    .intro__image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: sepia(20%) contrast(1.1);
-    }
-
-    .intro__image::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(192,74,26,0.15), transparent);
-    }
-
-    .intro__label {
-      font-size: 11px;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--mineral-amber);
-      margin-bottom: var(--space-sm);
-    }
-
-    .intro__heading {
-      font-family: var(--font-display);
-      font-size: 32px;
-      font-weight: 300;
-      line-height: 1.4;
-      letter-spacing: 0.05em;
-      margin-bottom: var(--space-md);
-    }
-
-    .intro__text {
-      font-size: 15px;
-      line-height: 2;
-      opacity: 0.7;
-      max-width: 480px;
-    }
-
-    .intro__signature {
-      margin-top: var(--space-md);
-      font-family: var(--font-display);
-      font-size: 13px;
-      font-style: italic;
-      opacity: 0.5;
-    }
-
-    /* ================================================
-       COLLECTION SHOWCASE — 滑動式溫泉卡片
-       ================================================ */
-    .showcase {
-      padding: var(--space-lg) 0 var(--space-xl);
-      background: var(--mineral-forest);
-    }
-
-    .showcase__header {
-      padding: 0 var(--space-lg);
-      margin-bottom: var(--space-lg);
-    }
-
-    .showcase__count {
-      font-size: 11px;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--mineral-amber);
-      margin-bottom: var(--space-xs);
-    }
-
-    .showcase__heading {
-      font-family: var(--font-display);
-      font-size: 28px;
-      font-weight: 300;
-      letter-spacing: 0.1em;
-    }
-
-    .showcase__scroll {
-      display: flex;
-      gap: var(--space-md);
-      overflow-x: auto;
-      padding: 0 var(--space-lg) var(--space-lg);
-      scroll-snap-type: x mandatory;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .showcase__scroll::-webkit-scrollbar { display: none; }
-
-    .spring-card {
-      flex: 0 0 320px;
-      scroll-snap-align: start;
-      border-radius: 6px;
-      overflow: hidden;
-      position: relative;
-      cursor: pointer;
-      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .spring-card:hover {
-      transform: translateY(-8px);
-    }
-
-    .spring-card__image {
-      aspect-ratio: 3/4;
-      position: relative;
-    }
-
-    .spring-card__image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: saturate(0.85) contrast(1.05);
-    }
-
-    .spring-card__overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(28,18,8,0.9) 0%, rgba(28,18,8,0.1) 60%);
-    }
-
-    .spring-card__content {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: var(--space-md);
-    }
-
-    .spring-card__region {
-      font-size: 10px;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--mineral-amber);
-      margin-bottom: 6px;
-    }
-
-    .spring-card__name {
-      font-family: var(--font-display);
-      font-size: 24px;
-      font-weight: 300;
-      letter-spacing: 0.15em;
-      margin-bottom: 8px;
-      line-height: 1.3;
-    }
-
-    .spring-card__meta {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .spring-card__tag {
-      font-size: 11px;
-      padding: 3px 10px;
-      border-radius: 2px;
-      background: rgba(232,220,200,0.12);
-      color: var(--mineral-steam);
-      letter-spacing: 0.1em;
-    }
-
-    .spring-card__tag--rust {
-      background: rgba(192,74,26,0.25);
-      color: var(--mineral-amber);
-      border: 1px solid rgba(192,74,26,0.4);
-    }
-
-    /* ================================================
-       REGIONS — 四分部從地圖視角
-       ================================================ */
-    .regions {
-      padding: var(--space-xl) var(--space-lg);
-      background: var(--mineral-deep);
-    }
-
-    .regions__header {
-      text-align: center;
-      margin-bottom: var(--space-lg);
-    }
-
-    .regions__label {
-      font-size: 11px;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--mineral-amber);
-      margin-bottom: var(--space-sm);
-    }
-
-    .regions__heading {
-      font-family: var(--font-display);
-      font-size: 28px;
-      font-weight: 300;
-      letter-spacing: 0.1em;
-    }
-
-    .regions__grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .region-card {
-      position: relative;
-      aspect-ratio: 3/4;
-      overflow: hidden;
-      cursor: pointer;
-    }
-
-    .region-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: saturate(0.7) contrast(1.1);
-      transition: filter 0.6s ease, transform 0.6s ease;
-    }
-
-    .region-card:hover img {
-      filter: saturate(1) contrast(1);
-      transform: scale(1.04);
-    }
-
-    .region-card__overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(28,18,8,0.85) 30%, rgba(28,18,8,0) 70%);
-    }
-
-    .region-card__content {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: var(--space-md);
-    }
-
-    .region-card__emoji {
-      font-size: 32px;
-      margin-bottom: 8px;
-    }
-
-    .region-card__name {
-      font-family: var(--font-display);
-      font-size: 22px;
-      font-weight: 300;
-      letter-spacing: 0.2em;
-      margin-bottom: 4px;
-    }
-
-    .region-card__count {
-      font-size: 12px;
-      opacity: 0.6;
-      letter-spacing: 0.1em;
-    }
-
-    /* ================================================
-       PHILOSOPHY — 核心理念陳述
-       ================================================ */
-    .philosophy {
-      padding: var(--space-xl) var(--space-lg);
-      background: var(--mineral-forest);
-      text-align: center;
-    }
-
-    .philosophy__label {
-      font-size: 11px;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--mineral-amber);
-      margin-bottom: var(--space-md);
-    }
-
-    .philosophy__quote {
-      font-family: var(--font-display);
-      font-size: clamp(20px, 3vw, 32px);
-      font-weight: 300;
-      line-height: 1.8;
-      max-width: 700px;
-      margin: 0 auto var(--space-lg);
-      letter-spacing: 0.08em;
-      font-style: italic;
-    }
-
-    .philosophy__author {
-      font-size: 12px;
-      opacity: 0.4;
-      letter-spacing: 0.2em;
-    }
-
-    /* ================================================
-       FOOTER — 極簡
-       ================================================ */
-    .footer {
-      padding: var(--space-lg);
-      background: var(--mineral-deep);
-      border-top: 1px solid rgba(232,220,200,0.08);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .footer__logo {
-      width: 48px;
-      height: 48px;
-      opacity: 0.35;
-    }
-    .footer__text {
-      font-size: 12px;
-      opacity: 0.3;
-      letter-spacing: 0.1em;
-    }
-    .footer__mark {
-      font-size: 11px;
-      opacity: 0.2;
-      letter-spacing: 0.15em;
-    }
-
-    /* ================================================
-       RESPONSIVE
-       ================================================ */
-    @media (max-width: 768px) {
-      .intro {
-        grid-template-columns: 1fr;
-        padding: var(--space-lg) var(--space-sm);
-      }
-      .intro__image { order: -1; }
-      .regions__grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .hero__content {
-        padding: var(--space-lg) var(--space-sm);
-      }
-      .footer {
-        flex-direction: column;
-        gap: var(--space-sm);
-        text-align: center;
-      }
-    }
-  </style>
+/* Stats bar */
+.stats-bar {
+  display: flex; justify-content: space-between;
+  padding: 8px 16px; font-size: 12px;
+  color: rgba(232,220,200,0.5);
+}
+@media (min-width: 768px) { .stats-bar { padding: 8px 24px; } }
+</style>
 </head>
 <body>
+<!-- Mobile Header -->
+<header class="mobile-header">
+  <img src="../logo.svg" class="logo-img" alt="logo">
+  <h1>台灣野溪溫泉</h1>
+</header>
 
-  <!-- ═══════════════════════════════════════════════
-       HERO — 電影感開場
-       ═══════════════════════════════════════════════ -->
-  <section class="hero">
-    <div class="hero__bg"></div>
-    <div class="hero__content">
-      <div class="hero__logo">
-        <img src="logo.svg" alt="泉" width="96" height="96">
-        <div class="hero__logo-sub">T A I W A N   W I L D   S P R I N G S</div>
-      </div>
-      <div class="hero__eyebrow">Taiwan Wild Hot Springs</div>
-      <h1 class="hero__title">
-        山的靈魂<br>
-        <span>在水溫裡</span>
-      </h1>
-      <p class="hero__subtitle">
-        走進真正的野溪溫泉——不是觀光客的池子，是只有山知道的地方。
-      </p>
-    </div>
-    <div class="hero__scroll-hint">SCROLL</div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════
-       INTRO — 小綠的靈魂解說
-       ═══════════════════════════════════════════════ -->
-  <section class="intro">
-    <div class="intro__image">
-      <img loading="lazy" src="https://image.pollinations.ai/prompt/Serene%20mountain%20stream%20forest%20taiwan%20hotspring%20peaceful%20morning%20mist%20minimalist%20illustration?width=800&height=600&nologo=true"
-           alt="山溪與森林">
-    </div>
-    <div>
-      <div class="intro__label">About This Collection</div>
-      <h2 class="intro__heading">
-        66 個溫泉<br>
-        66 種抵達山的方式
-      </h2>
-      <p class="intro__text">
-        每一個溫泉都不只是一組座標。穿過產業道路、涉過溪水、或者在登山口卸下裝備的那一刻——那才是真正的抵達。<br><br>
-        這本手冊記錄的不只是難易度與交通指南，而是每一次「我真的把自己帶進山裡」的記憶。
-      </p>
-      <p class="intro__signature">— 小綠，野溪溫泉愛好者</p>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════
-       SHOWCASE — 橫向滑動精選
-       ═══════════════════════════════════════════════ -->
-  <section class="showcase">
-    <div class="showcase__header">
-      <div class="showcase__count">精選 · Featured</div>
-      <h2 class="showcase__heading">從清單裡挑一個，週末上山</h2>
-    </div>
-    <div class="showcase__scroll">
-
-      <div class="spring-card">
-        <div class="spring-card__image">
-          <img loading="lazy" src="https://image.pollinations.ai/prompt/Japanese%20mountain%20hot%20spring%20steam%20mist%20forest%20minimalist%20illustration?width=600&height=800&nologo=true" alt="嘎拉賀溫泉">
-          <div class="spring-card__overlay"></div>
-        </div>
-        <div class="spring-card__content">
-          <div class="spring-card__region">北部 · 新北</div>
-          <h3 class="spring-card__name">嘎拉賀</h3>
-          <div class="spring-card__meta">
-            <span class="spring-card__tag spring-card__tag--rust">♨️ 碳酸氫鈉</span>
-            <span class="spring-card__tag">⛰️ 中級</span>
-            <span class="spring-card__tag">🐕 柴犬友善</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="spring-card">
-        <div class="spring-card__image">
-          <img loading="lazy" src="https://image.pollinations.ai/prompt/Cold%20mountain%20stream%20hot%20spring%20waterfall%20taiwan%20forest%20minimalist%20illustration?width=600&height=800&nologo=true" alt="栗松溫泉">
-          <div class="spring-card__overlay"></div>
-        </div>
-        <div class="spring-card__content">
-          <div class="spring-card__region">東部 · 台東</div>
-          <h3 class="spring-card__name">栗松</h3>
-          <div class="spring-card__meta">
-            <span class="spring-card__tag spring-card__tag--rust">♨️ 碳酸氫鈉</span>
-            <span class="spring-card__tag">🔥 老手</span>
-            <span class="spring-card__tag">🥾 需步行 2km</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="spring-card">
-        <div class="spring-card__image">
-          <img loading="lazy" src="https://image.pollinations.ai/prompt/Steamy%20hotspring%20in%20alpine%20valley%20mountain%20landscape%20taiwan%20minimalist%20illustration?width=600&height=800&nologo=true" alt="秀巒溫泉">
-          <div class="spring-card__overlay"></div>
-        </div>
-        <div class="spring-card__content">
-          <div class="spring-card__region">中部 · 桃園</div>
-          <h3 class="spring-card__name">秀巒</h3>
-          <div class="spring-card__meta">
-            <span class="spring-card__tag spring-card__tag--rust">♨️ 碳酸氫鈉</span>
-            <span class="spring-card__tag">🌱 新手</span>
-            <span class="spring-card__tag">🚗 容易抵達</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="spring-card">
-        <div class="spring-card__image">
-          <img loading="lazy" src="https://image.pollinations.ai/prompt/Wild%20hotspring%20canyon%20mountain%20valley%20steam%20rising%20taiwan%20minimalist%20illustration?width=600&height=800&nologo=true" alt="哈尤溪溫泉">
-          <div class="spring-card__overlay"></div>
-        </div>
-        <div class="spring-card__content">
-          <div class="spring-card__region">東部 · 台東</div>
-          <h3 class="spring-card__name">哈尤溪</h3>
-          <div class="spring-card__meta">
-            <span class="spring-card__tag spring-card__tag--rust">♨️ 碳酸氫鈉</span>
-            <span class="spring-card__tag">🔥 老手</span>
-            <span class="spring-card__tag">🛶 溯溪 16km</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="spring-card">
-        <div class="spring-card__image">
-          <img loading="lazy" src="https://image.pollinations.ai/prompt/Riverside%20hotspring%20rocks%20trees%20peaceful%20mountain%20stream%20taiwan%20minimalist%20illustration?width=600&height=800&nologo=true" alt="金崙溫泉">
-          <div class="spring-card__overlay"></div>
-        </div>
-        <div class="spring-card__content">
-          <div class="spring-card__region">東部 · 台東</div>
-          <h3 class="spring-card__name">金崙</h3>
-          <div class="spring-card__meta">
-            <span class="spring-card__tag spring-card__tag--rust">♨️ 碳酸氫鈉</span>
-            <span class="spring-card__tag">🌱 新手</span>
-            <span class="spring-card__tag">🐕 柴犬友善</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════
-       REGIONS — 四區域探索
-       ═══════════════════════════════════════════════ -->
-  <section class="regions">
-    <div class="regions__header">
-      <div class="regions__label">Explore by Region</div>
-      <h2 class="regions__heading">從哪裡開始，你說了算</h2>
-    </div>
-    <div class="regions__grid">
-      <div class="region-card">
-        <img loading="lazy" src="https://image.pollinations.ai/prompt/Japanese%20alpine%20forest%20mountain%20north%20taiwan%20serene%20mist%20minimalist%20illustration%20style?width=600&height=800&nologo=true" alt="北部">
-        <div class="region-card__overlay"></div>
-        <div class="region-card__content">
-          <div class="region-card__emoji">🌤</div>
-          <div class="region-card__name">北</div>
-          <div class="region-card__count">9 個溫泉</div>
-        </div>
-      </div>
-      <div class="region-card">
-        <img loading="lazy" src="https://image.pollinations.ai/prompt/Dense%20green%20mountain%20forest%20central%20taiwan%20valley%20mist%20minimalist%20illustration%20style?width=600&height=800&nologo=true" alt="中部">
-        <div class="region-card__overlay"></div>
-        <div class="region-card__content">
-          <div class="region-card__emoji">🌿</div>
-          <div class="region-card__name">中</div>
-          <div class="region-card__count">12 個溫泉</div>
-        </div>
-      </div>
-      <div class="region-card">
-        <img loading="lazy" src="https://image.pollinations.ai/prompt/Southern%20taiwan%20mountain%20tropical%20forest%20river%20canyon%20minimalist%20illustration%20style?width=600&height=800&nologo=true" alt="南部">
-        <div class="region-card__overlay"></div>
-        <div class="region-card__content">
-          <div class="region-card__emoji">☀️</div>
-          <div class="region-card__name">南</div>
-          <div class="region-card__count">5 個溫泉</div>
-        </div>
-      </div>
-      <div class="region-card">
-        <img loading="lazy" src="https://image.pollinations.ai/prompt/Eastern%20taiwan%20coastal%20mountains%20ocean%20cliffs%20green%20valley%20minimalist%20illustration%20style?width=600&height=800&nologo=true" alt="東部">
-        <div class="region-card__overlay"></div>
-        <div class="region-card__content">
-          <div class="region-card__emoji">🌊</div>
-          <div class="region-card__name">東</div>
-          <div class="region-card__count">40 個溫泉</div>
-        </div>
+<div class="app-shell">
+<!-- Desktop Sidebar -->
+<aside class="sidebar hidden">
+  <div class="logo-section">
+    <img src="../logo.svg" alt="logo">
+    <span>台灣野溪溫泉</span>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="#" class="nav-link active" data-tab="home"><span class="nav-icon">🏠</span>首頁</a>
+    <a href="#" class="nav-link" data-tab="explore"><span class="nav-icon">🔍</span>探索</a>
+    <a href="#" class="nav-link" data-tab="collection"><span class="nav-icon">❤️</span>我的收藏</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="footer-logo">
+      <img src="../logo.svg" alt="logo">
+      <div class="footer-text">
+        <div>66 Springs · 4 Regions</div>
+        <div style="margin-top:2px">台灣野溪溫泉地圖</div>
       </div>
     </div>
-  </section>
+  </div>
+</aside>
 
-  <!-- ═══════════════════════════════════════════════
-       PHILOSOPHY — 核心理念
-       ═══════════════════════════════════════════════ -->
-  <section class="philosophy">
-    <div class="philosophy__label">Our Philosophy</div>
-    <blockquote class="philosophy__quote">
-      「帶走的不只是疲憊，還有山的記憶。」<br>
-      真正的溫泉在於山的靈魂，不在水溫。
-    </blockquote>
-    <p class="philosophy__author">— 小綠， Patagonia 精神</p>
-  </section>
+<!-- Main Content -->
+<main class="main-content">
+  <div class="stats-bar">
+    <span id="stats-text">共 66 處溫泉</span>
+    <span id="collection-count"></span>
+  </div>
 
-  <!-- ═══════════════════════════════════════════════
-       FOOTER
-       ═══════════════════════════════════════════════ -->
-  <footer class="footer">
-    <img src="logo.svg" alt="泉" class="footer__logo">
-    <div class="footer__text">♨️ 台灣野溪溫泉收集手冊</div>
-    <div class="footer__mark">66 Springs · 4 Regions · 1 Mission</div>
-  </footer>
+  <!-- Filters -->
+  <div class="filter-section">
+    <div class="filter-group" id="region-filters">
+      <button class="filter-chip active" data-region="all">全部</button>
+      <button class="filter-chip" data-region="北">🗻 北</button>
+      <button class="filter-chip" data-region="中">🏔️ 中</button>
+      <button class="filter-chip" data-region="南">🌋 南</button>
+      <button class="filter-chip" data-region="東">🌊 東</button>
+    </div>
+    <div class="filter-group" id="difficulty-filters">
+      <button class="filter-chip active" data-diff="all">全部難度</button>
+      <button class="filter-chip" data-diff="beginner">🌱新手</button>
+      <button class="filter-chip" data-diff="intermediate">⛰️中級</button>
+      <button class="filter-chip" data-diff="expert">🔥老手</button>
+    </div>
+  </div>
 
+  <!-- Spring List -->
+  <div class="spring-list">
+    <div class="spring-grid" id="spring-grid"></div>
+    <div class="empty-state hidden" id="empty-state">
+      <div class="empty-icon">🗺️</div>
+      <p>目前沒有符合條件的溫泉</p>
+    </div>
+  </div>
+</main>
+</div>
+
+<!-- Mobile Bottom Nav -->
+<nav class="bottom-nav">
+  <a href="#" class="nav-item active" data-tab="home"><span class="nav-icon">🏠</span>首頁</a>
+  <a href="#" class="nav-item" data-tab="explore"><span class="nav-icon">🔍</span>探索</a>
+  <a href="#" class="nav-item" data-tab="collection"><span class="nav-icon">❤️</span>我的收藏</a>
+</nav>
+
+<script>
+// All 66 hot springs data
+const springs = [
+  { ID: "1", Name: "八煙", Region: "北", Type: "硫磺", Coordinate: "", Status: 0, Description: "硫磺噴氣口濃煙有毒勿大量吸入", Season: "全年", Difficulty: 3.0, Route: "健行步道落差約100m(2公里以內)", Gear: "一般休閒裝即可", GuanZhi: "國家公園管制區立牌禁止進入" },
+  { ID: "2", Name: "下七股", Region: "北", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "全年", Difficulty: 3.0, Route: "健行步道落差約50m(500m以內)", Gear: "長袖衣物止滑鞋子", GuanZhi: "國家公園未立牌管制區" },
+  { ID: "3", Name: "庚子坪", Region: "北", Type: "硫磺", Coordinate: "", Status: 0, Description: "硫磺噴氣口濃煙有毒勿大量吸入", Season: "全年", Difficulty: 3.0, Route: "有爆裂口地形的健行步道(300m以內)", Gear: "一般休閒裝止滑鞋子", GuanZhi: "國家公園管制區立牌禁止進入" },
+  { ID: "4", Name: "磺溪", Region: "北", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "全年", Difficulty: 4.0, Route: "較濕滑健行步道落差約100m(1公里左右)", Gear: "長袖衣物止滑鞋子", GuanZhi: "國家公園管制區立牌禁止進入" },
+  { ID: "5", Name: "大油坑", Region: "北", Type: "硫磺", Coordinate: "", Status: 0, Description: "硫磺噴氣口濃煙有毒勿大量吸入/沿途破碎地形及滾燙源頭須小心", Season: "全年", Difficulty: 6.0, Route: "有爆裂口地形的健行步道落差約200m(1~2公里)", Gear: "長袖衣物止滑鞋子", GuanZhi: "國家公園管制區立牌禁止進入" },
+  { ID: "6", Name: "鹿角坑", Region: "北", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "全年", Difficulty: 5.0, Route: "健行步道落差約100m(2公里以內)", Gear: "長袖衣物止滑鞋子", GuanZhi: "鹿角坑保護區/鐵柵門圍籬" },
+  { ID: "7", Name: "烏來", Region: "北", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "全年", Difficulty: 1.0, Route: "溪邊步道100m以內", Gear: "一般休閒裝即可", GuanZhi: "水源保護區鐵皮封閉" },
+  { ID: "8", Name: "嘎拉賀", Region: "北", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "汽車建議停入口停車場$100/機車可騎下水泥路至涼亭附近", Season: "全年", Difficulty: 5.0, Route: "健行步道落差約150-300m(2公里以內)", Gear: "長袖衣物止滑鞋子", GuanZhi: "未管制" },
+  { ID: "9", Name: "四稜", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "全年", Difficulty: 7.0, Route: "登山型步道落差約300m(2公里以內)", Gear: "長袖衣物止滑鞋子及手套", GuanZhi: "入口有禁入告示" },
+  { ID: "10", Name: "小錦屏", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "道路差建議機車或四輪傳動車 建議停陡坡上方或吊橋附近", Season: "全年", Difficulty: 3.0, Route: "健行步道落差約100m(1公里以內)", Gear: "一般休閒裝即可", GuanZhi: "未管制" },
+  { ID: "11", Name: "秀巒", Region: "中", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "分檢查哨下方與軍艦岩對岸2處", Season: "全年", Difficulty: 2.0, Route: "溪邊步道200m以內", Gear: "一般休閒裝即可", GuanZhi: "未管制" },
+  { ID: "12", Name: "泰崗", Region: "中", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "上游露頭視溪況要專業裝備", Season: "10-5月", Difficulty: 8.0, Route: "健行步道及溯溪水路(3公里左右)", Gear: "長袖衣物溯溪裝備", GuanZhi: "未管制" },
+  { ID: "13", Name: "雪見", Region: "中", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "11-4月", Difficulty: 12.0, Route: "溯溪水路(20公里)", Gear: "溯溪及露營裝備", GuanZhi: "國家公園生態保護區禁止進入" },
+  { ID: "14", Name: "馬陵", Region: "中", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "下雨期間易落石勿前往/水庫放水期勿前往", Season: "10-5月", Difficulty: 7.0, Route: "健行步道及溯溪水路(5公里左右)", Gear: "溯溪裝備", GuanZhi: "台電鐵門封鎖禁入" },
+  { ID: "15", Name: "精英", Region: "中", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "產業道路建議高底盤車輛", Season: "10-5月", Difficulty: 2.0, Route: "溪邊步道200m以內", Gear: "一般及過溪的鞋子", GuanZhi: "未管制" },
+  { ID: "16", Name: "雲海", Region: "中", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "10-5月", Difficulty: 9.0, Route: "溯溪水路有攔沙壩需拉繩(4公里以內)", Gear: "溯溪裝備", GuanZhi: "未管制" },
+  { ID: "17", Name: "惠蓀", Region: "中", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "有溪床便道可快速抵達/無溪床便道要專業裝備(要遊樂區門票)", Season: "10-5月", Difficulty: 10.0, Route: "健行步道落差約100m溯溪水路(約6公里)", Gear: "防水溯溪裝備", GuanZhi: "惠蓀林場鐵柵門車輛禁入" },
+  { ID: "18", Name: "瑞岩", Region: "南", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "可能有附近業者會開挖溫泉池經營", Season: "10-5月", Difficulty: 2.0, Route: "溪邊步道300m以內", Gear: "一般及過溪的鞋子", GuanZhi: "未管制" },
+  { ID: "19", Name: "廬山源頭", Region: "中", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "10-5月", Difficulty: 6.0, Route: "健行步道落差20m溯溪水路(1公里以內)", Gear: "溯溪裝備", GuanZhi: "未管制" },
+  { ID: "20", Name: "春陽", Region: "中", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "10-5月", Difficulty: 2.0, Route: "溪邊步道300m以內", Gear: "一般及過溪的鞋子", GuanZhi: "當地公告為河道排水區域禁入" },
+  { ID: "21", Name: "太魯灣", Region: "南", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "無溫泉池而是溪水與溫泉混合溪流", Season: "全年", Difficulty: 7.0, Route: "溯溪水路(1公里以內)", Gear: "全身防水溯溪裝備", GuanZhi: "未管制" },
+  { ID: "22", Name: "馬海濮", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "全年", Difficulty: 7.0, Route: "溯溪水路(1公里以內)", Gear: "全身防水溯溪裝備", GuanZhi: "未管制" },
+  { ID: "23", Name: "萬大南", Region: "南", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "要遊樂區門票", Season: "10-5月", Difficulty: 8.0, Route: "健行步道及溯溪水路(4公里左右)", Gear: "溯溪裝備", GuanZhi: "未管制" },
+  { ID: "24", Name: "萬大北", Region: "北", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "要遊樂區門票", Season: "10-5月", Difficulty: 9.0, Route: "健行步道及溯溪水路(8公里左右)", Gear: "溯溪裝備", GuanZhi: "未管制" },
+  { ID: "25", Name: "三分所", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "可與地利聘機車丹大林道接駁", Season: "11-4月", Difficulty: 11.0, Route: "溯溪水路(14公里左右)/山路落差約600m及溯溪水路(約14公里左右)", Gear: "溯溪及露營裝備", GuanZhi: "二分所入山管制" },
+  { ID: "26", Name: "加年端", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "可與地利聘機車丹大林道接駁", Season: "11-4月", Difficulty: 12.0, Route: "溯溪水路(17公里左右)/山路落差約900m及溯溪水路(約19公里左右)", Gear: "防水溯溪及露營裝備", GuanZhi: "二分所入山管制" },
+  { ID: "27", Name: "丹大", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "可與地利聘機車丹大林道接駁", Season: "11-4月", Difficulty: 13.0, Route: "溯溪水路(28公里左右)/山路落差約1400m及溯溪水路(約31公里左右)", Gear: "登山溯溪及露營裝備", GuanZhi: "二分所入山管制" },
+  { ID: "28", Name: "伊巴厚", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "雙龍林道有鐵柵門須跟部落借鑰匙", Season: "11-4月", Difficulty: 15.0, Route: "健行步道落差約1300m及溯溪水路(約25公里左右)", Gear: "登山溯溪及露營裝備", GuanZhi: "未管制" },
+  { ID: "29", Name: "無雙", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "郡大林道建議四輪傳動車", Season: "10-5月", Difficulty: 13.0, Route: "健行步道落差約1100m及溯溪水路(約14公里左右)", Gear: "登山溯溪及露營裝備", GuanZhi: "望鄉檢查哨入山管制" },
+  { ID: "30", Name: "樂樂谷", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "10-5月", Difficulty: 8.0, Route: "健行步道落差約200m上下及溯溪水路(約5公里左右)", Gear: "溯溪裝備", GuanZhi: "國家公園生態保護區禁止進入" },
+  { ID: "31", Name: "萬山", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "10-5月", Difficulty: 9.0, Route: "溯溪水路(10公里左右)", Gear: "溯溪及露營裝備", GuanZhi: "未管制" },
+  { ID: "32", Name: "歐布諾伙", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "泉溫較低有加熱器", Season: "全年", Difficulty: 1.0, Route: "溪邊步道100m以內", Gear: "一般休閒裝即可", GuanZhi: "未管制" },
+  { ID: "33", Name: "石洞", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "10-5月", Difficulty: 4.0, Route: "溯溪水路(4公里以內)", Gear: "一般及過溪的鞋子", GuanZhi: "未管制" },
+  { ID: "34", Name: "七坑", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "往七坑道路建議高底盤車輛", Season: "10-5月", Difficulty: 2.0, Route: "溯溪水路200m以內", Gear: "一般及過溪的鞋子", GuanZhi: "未管制" },
+  { ID: "35", Name: "十坑", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "往七坑道路建議高底盤車輛", Season: "10-5月", Difficulty: 9.0, Route: "溯溪水路(5公里左右)", Gear: "溯溪裝備", GuanZhi: "未管制" },
+  { ID: "36", Name: "十三坑", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "往七坑/小關山林道建議高底盤車輛", Season: "10-5月", Difficulty: 10.0, Route: "溯溪水路(七坑起溯9公里左右)/健行步道落差約650m及溯溪水路(約5公里內)", Gear: "溯溪及露營裝備", GuanZhi: "未管制/寶來檢查哨入山管制" },
+  { ID: "37", Name: "玉穗", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "2021.08豪大雨土石流深埋中/待開挖", Season: "全年", Difficulty: 1.0, Route: "溪邊步道100m以內", Gear: "一般休閒裝即可", GuanZhi: "未管制" },
+  { ID: "38", Name: "復興", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "10-5月", Difficulty: 7.0, Route: "溯溪水路(4公里左右)", Gear: "溯溪裝備", GuanZhi: "未管制" },
+  { ID: "39", Name: "大武", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "可搭部落導覽接駁車每人1500(含哈尤溪溫泉)", Season: "12-4月", Difficulty: 7.0, Route: "溯溪水路(5公里左右)", Gear: "溯溪裝備", GuanZhi: "部落管制收200清潔費" },
+  { ID: "40", Name: "哈尤溪", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "可搭部落導覽接駁車每人1500(可當日來回)", Season: "12-4月", Difficulty: 10.0, Route: "溯溪水路(16公里左右)", Gear: "溯溪及露營裝備", GuanZhi: "部落管制收200清潔費" },
+  { ID: "41", Name: "清水", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "停車場會收費", Season: "全年", Difficulty: 2.0, Route: "溪邊步道200m以內", Gear: "一般及過溪的鞋子", GuanZhi: "施工區域會有保全勸阻" },
+  { ID: "42", Name: "芃芃", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "部落研議封閉討論中", Season: "全年", Difficulty: 2.0, Route: "溯溪水路(1公里以內)", Gear: "一般及過溪的鞋子", GuanZhi: "公告不能開車進溫泉" },
+  { ID: "43", Name: "排骨溪", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "全年", Difficulty: 1.0, Route: "溪邊步道200m以內", Gear: "一般及過溪的鞋子", GuanZhi: "未管制" },
+  { ID: "44", Name: "天狗溪", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "全年", Difficulty: 4.0, Route: "溯溪水路(3公里左右)", Gear: "溯溪裝備", GuanZhi: "未管制" },
+  { ID: "45", Name: "多望溪", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "從鳩之澤下溯要門票收費", Season: "全年", Difficulty: 4.0, Route: "溯溪水路(下溯1公里/上溯3公里左右)", Gear: "溯溪裝備", GuanZhi: "曾公告不能開車進溫泉" },
+  { ID: "46", Name: "龍安", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "安平坑林道建議高底盤車輛/一般稱芽丁溫泉", Season: "2-9月", Difficulty: 11.0, Route: "健行步道落差約550m及溯溪水路(約2公里左右)", Gear: "溯溪及露營裝備", GuanZhi: "平日礦場作業管制" },
+  { ID: "47", Name: "烏帽", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "一般稱拉卡/五區溫泉", Season: "2-9月", Difficulty: 9.0, Route: "溯溪水路(4公里左右)", Gear: "溯溪裝備", GuanZhi: "未管制" },
+  { ID: "48", Name: "四區", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "2-9月", Difficulty: 3.0, Route: "溯溪水路(1公里以內)", Gear: "溯溪裝備", GuanZhi: "未管制" },
+  { ID: "49", Name: "莫很", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "11-4月", Difficulty: 14.0, Route: "溯溪水路(13公里左右)", Gear: "防水溯溪及露營裝備", GuanZhi: "未管制" },
+  { ID: "50", Name: "文山", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "全年", Difficulty: 3.0, Route: "健行步道落差約50m(1公里以內)", Gear: "一般休閒裝止滑鞋子", GuanZhi: "文山吊橋下溪床鐵門上鎖" },
+  { ID: "51", Name: "二子山", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "11-4月", Difficulty: 10.0, Route: "溯溪水路(12公里左右)", Gear: "溯溪及露營裝備", GuanZhi: "西林檢查哨入山管制" },
+  { ID: "52", Name: "森坂", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "一般稱摩里莎卡溫泉", Season: "11-4月", Difficulty: 7.0, Route: "溯溪水路(2公里左右)", Gear: "溯溪裝備", GuanZhi: "未管制" },
+  { ID: "53", Name: "萬榮", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "11-4月", Difficulty: 9.0, Route: "溯溪水路(3公里左右)", Gear: "溯溪裝備", GuanZhi: "未管制" },
+  { ID: "54", Name: "大分", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "可申請山屋(瓦拉米、抱崖、大分)", Season: "10-5月", Difficulty: 15.0, Route: "健行步道落差約800m及溯溪水路(約43公里左右)", Gear: "登山溯溪裝備", GuanZhi: "國家公園生態保護區" },
+  { ID: "55", Name: "栗松", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "產業道路建議高底盤車輛", Season: "10-5月", Difficulty: 7.0, Route: "健行步道落差約350m及溯溪水路(約2公里以內)", Gear: "手套及溯溪裝備", GuanZhi: "未管制" },
+  { ID: "56", Name: "碧山", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "地質不穩易落石下雨勿前往", Season: "全年", Difficulty: 8.0, Route: "陡下拉繩落差約40m及溯溪水路(約300m以內)", Gear: "手套及溯溪裝備", GuanZhi: "未管制" },
+  { ID: "57", Name: "轆轆", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "到工寮登山口需高底盤車輛", Season: "10-5月", Difficulty: 10.0, Route: "健行步道落差約800m及溯溪水路(約4公里左右)", Gear: "登山溯溪及露營裝備", GuanZhi: "新武呂溪魚類保護區禁止進入" },
+  { ID: "58", Name: "彩霞", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "停車建議彩霞隧道西口旁停車場", Season: "10-5月", Difficulty: 3.0, Route: "健行步道落差約20m及溯溪水路(約300m以內)", Gear: "手套及過溪的鞋子", GuanZhi: "新武呂溪魚類保護區禁止進入" },
+  { ID: "59", Name: "紅葉", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "分瓦崗溪旁及紅葉橋上游2處", Season: "全年", Difficulty: 2.0, Route: "溪邊步道200m以內", Gear: "一般休閒裝即可", GuanZhi: "未管制" },
+  { ID: "60", Name: "上里", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "10-5月", Difficulty: 6.0, Route: "溯溪水路(3公里以內)", Gear: "溯溪裝備", GuanZhi: "蘇鐵自然保護區" },
+  { ID: "61", Name: "桃林", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "11-4月", Difficulty: 12.0, Route: "溯溪水路(12公里左右)", Gear: "防水溯溪及露營裝備", GuanZhi: "蘇鐵自然保護區" },
+  { ID: "62", Name: "利吉", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "全年", Difficulty: 2.0, Route: "健行步道落差約20m(100m以內)", Gear: "一般休閒裝止滑鞋子", GuanZhi: "未管制" },
+  { ID: "63", Name: "金峰", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "全年", Difficulty: 1.0, Route: "溪邊步道300m左右", Gear: "一般休閒裝即可", GuanZhi: "柵門管制15:00後會關閉" },
+  { ID: "64", Name: "比魯", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "11-4月", Difficulty: 8.0, Route: "溯溪水路(10公里左右)", Gear: "溯溪及露營裝備", GuanZhi: "大武山自然保留區限申請當日來回" },
+  { ID: "65", Name: "金崙", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "全年", Difficulty: 2.0, Route: "溪邊步道300m以內", Gear: "一般休閒裝即可", GuanZhi: "未管制" },
+  { ID: "66", Name: "近黃", Region: "東", Type: "碳酸氫鈉", Coordinate: "", Status: 0, Description: "", Season: "10-5月", Difficulty: 8.0, Route: "溯溪水路(5公里左右)", Gear: "溯溪裝備", GuanZhi: "大武山自然保留區限申請當日來回" }
+];
+// App state
+let currentTab = 'home';
+let currentRegion = 'all';
+let currentDiff = 'all';
+let collection = JSON.parse(localStorage.getItem('spring_collection') || '[]');
+
+// Region display config
+const regionEmoji = { '北': '🗻', '中': '🏔️', '南': '🌋', '東': '🌊' };
+const regionClass = { '北': 'region-north', '中': 'region-central', '南': 'region-south', '東': 'region-east' };
+
+// Difficulty helpers
+function getDiffLevel(d) {
+  if (d <= 3) return 'beginner';
+  if (d <= 7) return 'intermediate';
+  return 'expert';
+}
+function getDiffLabel(d) {
+  if (d <= 3) return '🌱新手';
+  if (d <= 7) return '⛰️中級';
+  return '🔥老手';
+}
+function getDiffBadge(d) {
+  if (d <= 3) return 'badge-newbie';
+  if (d <= 7) return 'badge-intermediate';
+  return 'badge-expert';
+}
+function getStars(d) {
+  const filled = Math.round((d / 15) * 5);
+  return '★'.repeat(filled) + '☆'.repeat(5 - filled);
+}
+
+// SVG mountain/steam illustration
+function getCardSVG(region) {
+  const colors = {
+    '北': { stroke: '#4A5C3A', steam: '#C04A1A' },
+    '中': { stroke: '#5C3A3A', steam: '#D4762C' },
+    '南': { stroke: '#3A3A5C', steam: '#5B7B8A' },
+    '東': { stroke: '#3A5C5C', steam: '#5B7B8A' }
+  };
+  const c = colors[region] || colors['北'];
+  return `<svg viewBox="0 0 200 80" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="steam-${region}" x1="0%" y1="100%" x2="0%" y2="0%">
+        <stop offset="0%" stop-color="${c.steam}" stop-opacity="0"/>
+        <stop offset="50%" stop-color="${c.steam}" stop-opacity="0.3"/>
+        <stop offset="100%" stop-color="${c.steam}" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <!-- Mountains -->
+    <path d="M0 80 L30 40 L50 60 L80 25 L110 55 L130 35 L160 50 L200 80 Z" fill="none" stroke="${c.stroke}" stroke-width="1.5" opacity="0.5"/>
+    <path d="M20 80 L60 30 L90 55 L130 20 L160 45 L200 80" fill="none" stroke="${c.stroke}" stroke-width="1" opacity="0.3"/>
+    <!-- Steam rises -->
+    <path d="M85 55 Q80 40 85 25 Q90 10 85 -5" stroke="url(#steam-${region})" stroke-width="3" fill="none" opacity="0.7"/>
+    <path d="M100 50 Q95 35 100 20 Q105 5 100 -10" stroke="url(#steam-${region})" stroke-width="3" fill="none" opacity="0.7"/>
+    <path d="M115 55 Q110 40 115 25 Q120 10 115 -5" stroke="url(#steam-${region})" stroke-width="3" fill="none" opacity="0.7"/>
+  </svg>`;
+}
+
+// Create spring card HTML
+function createSpringCard(spring) {
+  const isSaved = collection.includes(spring.ID);
+  const diffLevel = getDiffLevel(spring.Difficulty);
+  const diffLabel = getDiffLabel(spring.Difficulty);
+  const diffBadge = getDiffBadge(spring.Difficulty);
+  const stars = getStars(spring.Difficulty);
+  const regionIcon = regionEmoji[spring.Region] || '🌊';
+  const regionCls = regionClass[spring.Region] || 'region-east';
+  const hasDesc = spring.Description && spring.Description.trim();
+  
+  return `<div class="spring-card" data-id="${spring.ID}" data-region="${spring.Region}" data-diff="${diffLevel}">
+  <div class="card-illustration ${regionCls}">
+    ${getCardSVG(spring.Region)}
+    <span class="calligraphy">${spring.Name}</span>
+  </div>
+  <div class="card-header">
+    <div class="card-title-row">
+      <span class="card-name">${spring.Name}</span>
+      <button class="fav-btn ${isSaved ? 'saved' : ''}" data-id="${spring.ID}">${isSaved ? '❤️' : '🤍'}</button>
+    </div>
+    <div class="card-region">${regionIcon} ${spring.Region}區</div>
+    <div class="card-badges">
+      <span class="badge badge-type">${spring.Type}</span>
+      <span class="badge badge-season">${spring.Season}</span>
+      <span class="badge badge-difficulty ${diffBadge}">${diffLabel} <span class="stars">${stars}</span></span>
+    </div>
+  </div>
+  <div class="card-description ${hasDesc && spring.Description.includes('毒') ? 'warning' : ''}">${spring.Description || '無'}</div>
+  <div class="card-details">
+    <div class="detail-item">
+      <div class="detail-label">路線</div>
+      <div class="detail-value">${spring.Route}</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">裝備</div>
+      <div class="detail-value">${spring.Gear}</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">管制</div>
+      <div class="detail-value">${spring.GuanZhi}</div>
+    </div>
+  </div>
+</div>`;
+}
+
+// Filter springs
+function filterSprings() {
+  return springs.filter(s => {
+    const matchRegion = currentRegion === 'all' || s.Region === currentRegion;
+    const matchDiff = currentDiff === 'all' || getDiffLevel(s.Difficulty) === currentDiff;
+    const matchCollection = currentTab !== 'collection' || collection.includes(s.ID);
+    return matchRegion && matchDiff && matchCollection;
+  });
+}
+
+// Render spring list
+function renderSprings() {
+  const grid = document.getElementById('spring-grid');
+  const empty = document.getElementById('empty-state');
+  const filtered = filterSprings();
+  
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    empty.classList.remove('hidden');
+  } else {
+    empty.classList.add('hidden');
+    grid.innerHTML = filtered.map(createSpringCard).join('');
+  }
+  
+  // Update stats
+  const statsText = document.getElementById('stats-text');
+  const collectionCount = document.getElementById('collection-count');
+  if (currentTab === 'collection') {
+    statsText.textContent = `我的收藏 ${filtered.length} 處`;
+  } else {
+    statsText.textContent = `共 ${filtered.length} 處溫泉`;
+  }
+  collectionCount.textContent = collection.length > 0 ? `❤️ ${collection.length}` : '';
+}
+
+// Toggle favorite
+function toggleFavorite(id, e) {
+  if (e) e.stopPropagation();
+  const idx = collection.indexOf(id);
+  if (idx === -1) {
+    collection.push(id);
+  } else {
+    collection.splice(idx, 1);
+  }
+  localStorage.setItem('spring_collection', JSON.stringify(collection));
+  renderSprings();
+}
+
+// Card click handler
+document.addEventListener('click', (e) => {
+  const card = e.target.closest('.spring-card');
+  const favBtn = e.target.closest('.fav-btn');
+  
+  if (favBtn) {
+    toggleFavorite(favBtn.dataset.id, e);
+    return;
+  }
+  
+  if (card) {
+    card.classList.toggle('expanded');
+  }
+});
+
+// Filter click handlers
+document.querySelectorAll('#region-filters .filter-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('#region-filters .filter-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    currentRegion = chip.dataset.region;
+    renderSprings();
+  });
+});
+
+document.querySelectorAll('#difficulty-filters .filter-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('#difficulty-filters .filter-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    currentDiff = chip.dataset.diff;
+    renderSprings();
+  });
+});
+
+// Tab navigation
+function setTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.classList.toggle('active', n.dataset.tab === tab);
+  });
+  document.querySelectorAll('.nav-link').forEach(n => {
+    n.classList.toggle('active', n.dataset.tab === tab);
+  });
+  
+  const statsText = document.getElementById('stats-text');
+  if (tab === 'collection') {
+    statsText.textContent = `我的收藏 ${collection.length} 處`;
+  } else {
+    renderSprings();
+  }
+  renderSprings();
+}
+
+document.querySelectorAll('.nav-item, .nav-link').forEach(n => {
+  n.addEventListener('click', (e) => {
+    e.preventDefault();
+    setTab(n.dataset.tab);
+  });
+});
+
+// Desktop sidebar toggle on mobile screens
+function checkDesktop() {
+  if (window.innerWidth >= 768) {
+    document.querySelector('.sidebar').classList.remove('hidden');
+  } else {
+    document.querySelector('.sidebar').classList.add('hidden');
+  }
+}
+
+// Init
+window.addEventListener('resize', checkDesktop);
+checkDesktop();
+renderSprings();
+</script>
 </body>
 </html>
